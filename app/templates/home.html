@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+{% block title %}Beranda - PDDIKTI Clone{% endblock %}
+{% block content %}
+
+<!-- Hero Section -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card shadow-lg border-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div class="card-body text-center text-white py-5">
+                <h1 class="display-4 mb-3">
+                    <i class="fas fa-search"></i> PDDIKTI Clone
+                </h1>
+                <p class="lead mb-4">
+                    Platform pencarian data perguruan tinggi, mahasiswa, dan dosen di Indonesia
+                </p>
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control" id="quickSearch"
+                                placeholder="Cari mahasiswa, dosen, atau perguruan tinggi...">
+                            <button class="btn btn-light" type="button" onclick="performQuickSearch()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search Options -->
+<div class="row g-4 mb-5">
+    <div class="col-lg-4 col-md-6">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center p-4">
+                <div class="mb-3">
+                    <i class="fas fa-user-graduate fa-3x text-primary"></i>
+                </div>
+                <h4 class="card-title">Cari Mahasiswa</h4>
+                <p class="card-text text-muted">
+                    Temukan data mahasiswa berdasarkan nama atau NIM
+                </p>
+                <form action="/search_mahasiswa" method="POST" class="mt-3">
+                    <div class="input-group mb-3">
+                        <input type="text" name="keyword" class="form-control" placeholder="Nama atau NIM mahasiswa"
+                            required>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center p-4">
+                <div class="mb-3">
+                    <i class="fas fa-chalkboard-teacher fa-3x text-success"></i>
+                </div>
+                <h4 class="card-title">Cari Dosen</h4>
+                <p class="card-text text-muted">
+                    Temukan data dosen berdasarkan nama atau NIDN
+                </p>
+                <form action="/search_dosen" method="POST" class="mt-3">
+                    <div class="input-group mb-3">
+                        <input type="text" name="keyword" class="form-control" placeholder="Nama atau NIDN dosen"
+                            required>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center p-4">
+                <div class="mb-3">
+                    <i class="fas fa-university fa-3x text-info"></i>
+                </div>
+                <h4 class="card-title">Cari Perguruan Tinggi</h4>
+                <p class="card-text text-muted">
+                    Temukan data perguruan tinggi berdasarkan nama atau singkatan
+                </p>
+                <form action="/search_pt" method="POST" class="mt-3">
+                    <div class="input-group mb-3">
+                        <input type="text" name="keyword" class="form-control" placeholder="Nama atau singkatan PT"
+                            required>
+                        <button type="submit" class="btn btn-info">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center p-4">
+                <div class="mb-3">
+                    <i class="fas fa-graduation-cap fa-3x text-warning"></i>
+                </div>
+                <h4 class="card-title">Cari Program Studi</h4>
+                <p class="card-text text-muted">
+                    Temukan data program studi berdasarkan nama
+                </p>
+                <form action="/search_prodi" method="POST" class="mt-3">
+                    <div class="input-group mb-3">
+                        <input type="text" name="keyword" class="form-control" placeholder="Nama program studi"
+                            required>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center p-4">
+                <div class="mb-3">
+                    <i class="fas fa-search fa-3x text-secondary"></i>
+                </div>
+                <h4 class="card-title">Cari Semua</h4>
+                <p class="card-text text-muted">
+                    Pencarian umum untuk semua data PDDikti
+                </p>
+                <form action="/search_all" method="POST" class="mt-3">
+                    <div class="input-group mb-3">
+                        <input type="text" name="keyword" class="form-control" placeholder="Kata kunci pencarian"
+                            required>
+                        <button type="submit" class="btn btn-secondary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Special API Section -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card shadow-lg border-0" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);">
+            <div class="card-body text-center text-white py-4">
+                <h3 class="mb-3">
+                    <i class="fas fa-database"></i> API Detail Mahasiswa
+                </h3>
+                <p class="lead mb-4">
+                    Akses data lengkap mahasiswa dengan informasi detail seperti NIK, alamat, kontak, dan status
+                    akademik
+                </p>
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="alert alert-light text-dark">
+                            <h6><i class="fas fa-info-circle"></i> Fitur Detail:</h6>
+                            <ul class="list-unstyled mb-0">
+                                <li><i class="fas fa-check text-success"></i> Informasi pribadi lengkap (NIK, tempat
+                                    lahir, agama)</li>
+                                <li><i class="fas fa-check text-success"></i> Data alamat lengkap</li>
+                                <li><i class="fas fa-check text-success"></i> Informasi kontak (telepon, handphone,
+                                    email)</li>
+                                <li><i class="fas fa-check text-success"></i> Status akademik dengan IPK</li>
+                                <li><i class="fas fa-check text-success"></i> Riwayat pendidikan dan registrasi</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="/search_mahasiswa" class="btn btn-light btn-lg">
+                        <i class="fas fa-search"></i> Cari Mahasiswa untuk Detail Lengkap
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="row g-4 mb-5 shadow-lg border-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="col-12">
+        <h3 class="text-center mb-4 text-white">
+            <i class="fas fa-star "></i> Fitur Utama
+        </h3>
+    </div>
+
+    <div class="col-md-3">
+        <div class="text-center text-white">
+            <i class="fas fa-database fa-2x text-primary mb-3"></i>
+            <h5>Data Terpercaya</h5>
+            <p class=" text-white">Data resmi dari PDDikti Kemendikbud</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="text-center text-white">
+            <i class="fas fa-bolt fa-2x text-warning mb-3"></i>
+            <h5>Cepat & Akurat</h5>
+            <p class=" text-white">Pencarian real-time dengan hasil akurat</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="text-center text-white">
+            <i class="fas fa-mobile-alt fa-2x text-success mb-3"></i>
+            <h5>Responsif</h5>
+            <p class=" text-white">Akses mudah dari berbagai perangkat</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="text-center text-white">
+            <i class="fas fa-shield-alt fa-2x text-info mb-3"></i>
+            <h5>Aman & Terpercaya</h5>
+            <p class=" text-white">Keamanan data terjamin</p>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Stats -->
+<div class="row g-4">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-bar"></i> Statistik Pencarian
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <div class="border-end">
+                            <h3 class="text-primary">5000+</h3>
+                            <p class="text-muted">Perguruan Tinggi</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="border-end">
+                            <h3 class="text-success">8.5M+</h3>
+                            <p class="text-muted">Mahasiswa Aktif</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <h3 class="text-info">300K+</h3>
+                            <p class="text-muted">Dosen Aktif</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function performQuickSearch() {
+        const searchTerm = document.getElementById('quickSearch').value.trim();
+        if (searchTerm) {
+            // Redirect to student search as default
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/search_mahasiswa';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'keyword';
+            input.value = searchTerm;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+
+    // Allow Enter key to trigger search
+    document.getElementById('quickSearch').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            performQuickSearch();
+        }
+    });
+</script>
+
+{% endblock %}

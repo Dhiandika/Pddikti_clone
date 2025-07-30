@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Pencarian Program Studi - PDDIKTI Clone{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+                <h3 class="mb-0">
+                    <i class="fas fa-graduation-cap"></i> Pencarian Data Program Studi
+                </h3>
+            </div>
+            <div class="card-body">
+                <!-- Search Form -->
+                <form method="POST" class="mb-4">
+                    <div class="input-group">
+                        <input type="text" 
+                               class="form-control form-control-lg" 
+                               name="keyword" 
+                               placeholder="Masukkan nama program studi..." 
+                               value="{{ keyword or '' }}"
+                               required>
+                        <button class="btn btn-warning btn-lg" type="submit">
+                            <i class="fas fa-search"></i> Cari
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Results Section -->
+                {% if keyword %}
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <strong>Error:</strong> {{ error }}
+                        </div>
+                    {% elif prodi_list %}
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle"></i>
+                            Ditemukan <strong>{{ prodi_list|length }}</strong> program studi untuk kata kunci "<strong>{{ keyword }}</strong>"
+                        </div>
+                        
+                        <div class="row">
+                            {% for prodi in prodi_list %}
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <div class="card h-100 border-warning">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0">
+                                            <i class="fas fa-graduation-cap"></i> {{ prodi.nama }}
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-2">
+                                            <strong><i class="fas fa-certificate"></i> Jenjang:</strong><br>
+                                            <span class="badge bg-warning text-dark">{{ prodi.jenjang }}</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <strong><i class="fas fa-university"></i> Perguruan Tinggi:</strong><br>
+                                            <span class="text-secondary">{{ prodi.pt }}</span>
+                                            {% if prodi.pt_singkat %}
+                                                <small class="text-muted">({{ prodi.pt_singkat }})</small>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            Tidak ada program studi ditemukan untuk kata kunci "<strong>{{ keyword }}</strong>"
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center text-muted">
+                        <i class="fas fa-search fa-3x mb-3"></i>
+                        <h5>Masukkan nama program studi untuk mencari data</h5>
+                        <p class="text-muted">Contoh: Teknik Informatika</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Back Button -->
+<div class="mt-4 text-center">
+    <a href="/" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+    </a>
+</div>
+{% endblock %} 

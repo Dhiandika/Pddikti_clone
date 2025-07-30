@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Statistik{% endblock %}
+{% block content %}
+<h2>Statistik Nasional</h2>
+<div class="row text-center">
+    {% for key, value in data.items() %}
+    <div class="col-md-3 mb-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <h5 class="card-title text-capitalize">{{ key.replace('_', ' ') }}</h5>
+                <p class="card-text fs-4">{{ value['data'] if value and value.get('data') else 'N/A' }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

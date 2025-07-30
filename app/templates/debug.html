@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Debug Search - PDDIKTI Clone{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+                <h3 class="mb-0">
+                    <i class="fas fa-bug"></i> Debug Search Result
+                </h3>
+            </div>
+            <div class="card-body">
+                <h5>Keyword: {{ keyword }}</h5>
+
+                {% if error %}
+                <div class="alert alert-danger">
+                    <strong>Error:</strong> {{ error }}
+                </div>
+                {% endif %}
+
+                {% if result %}
+                <h6>Raw Result:</h6>
+                <pre class="bg-light p-3 rounded">{{ result | tojson(indent=2) }}</pre>
+
+                {% if result.data %}
+                <h6 class="mt-4">First Student Data:</h6>
+                <pre
+                    class="bg-light p-3 rounded">{{ result.data[0] | tojson(indent=2) if result.data else 'No data' }}</pre>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

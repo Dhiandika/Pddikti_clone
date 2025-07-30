@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Hasil Pencarian Umum{% endblock %}
+{% block content %}
+<h2>🔍 Hasil Pencarian Umum</h2>
+<p>Kata kunci: <strong>{{ keyword }}</strong></p>
+
+{% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+{% elif result %}
+  <pre class="bg-light p-3 border rounded">{{ result | tojson(indent=2) }}</pre>
+{% else %}
+  <div class="alert alert-info">Tidak ada hasil ditemukan.</div>
+{% endif %}
+
+<a href="/" class="btn btn-secondary mt-3">🔙 Kembali</a>
+{% endblock %}

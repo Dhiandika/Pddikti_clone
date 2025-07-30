@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block title %}Detail Mahasiswa - PDDIKTI Clone{% endblock %}
+{% block content %}
+
+{% if error %}
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>Error:</strong> {{ error }}
+        </div>
+    </div>
+</div>
+{% elif detail %}
+<div class="row">
+    <div class="col-12">
+        <!-- Header Card -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">
+                        <i class="fas fa-user-graduate"></i> Detail Mahasiswa
+                    </h3>
+                    <a href="javascript:history.back()" class="btn btn-light btn-sm">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4 class="text-primary mb-3">{{ detail.nama or 'Nama tidak tersedia' }}</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong><i class="fas fa-id-card"></i> NIM:</strong><br>
+                                    <span class="text-primary">{{ detail.nim or 'Tidak tersedia' }}</span>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong><i class="fas fa-venus-mars"></i> Jenis Kelamin:</strong><br>
+                                    <span class="text-secondary">{{ detail.jenis_kelamin or 'Tidak tersedia' }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="bg-light rounded p-3">
+                            <i class="fas fa-user-graduate fa-3x text-primary mb-2"></i>
+                            <p class="mb-0 text-muted">Mahasiswa</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Personal Information -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card shadow h-100">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="fas fa-user"></i> Informasi Pribadi
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <strong><i class="fas fa-map-marker-alt"></i> Tempat Lahir:</strong><br>
+                            <span class="text-secondary">{{ detail.tempat_lahir or 'Tidak tersedia' }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <strong><i class="fas fa-calendar"></i> Tanggal Lahir:</strong><br>
+                            <span class="text-secondary">{{ detail.tanggal_lahir or 'Tidak tersedia' }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <strong><i class="fas fa-female"></i> Nama Ibu:</strong><br>
+                            <span class="text-secondary">{{ detail.nama_ibu or 'Tidak tersedia' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow h-100">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="fas fa-university"></i> Informasi Akademik
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <strong><i class="fas fa-university"></i> Perguruan Tinggi:</strong><br>
+                            <span class="text-primary">{{ detail.nama_pt or 'Tidak tersedia' }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <strong><i class="fas fa-graduation-cap"></i> Program Studi:</strong><br>
+                            <span class="text-info">{{ detail.nama_prodi or 'Tidak tersedia' }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <strong><i class="fas fa-certificate"></i> Jenjang:</strong><br>
+                            <span class="badge bg-primary">{{ detail.jenjang or 'Tidak tersedia' }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <strong><i class="fas fa-calendar-alt"></i> Tahun Masuk:</strong><br>
+                            <span class="text-secondary">{{ detail.tahun_masuk or 'Tidak tersedia' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Academic Status -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="fas fa-chart-line"></i> Status Akademik
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="alert alert-info">
+                                    <strong><i class="fas fa-info-circle"></i> Status Saat Ini:</strong><br>
+                                    <span class="h5">{{ detail.status_saat_ini or 'Tidak tersedia' }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-center">
+                                    <div class="bg-light rounded p-3">
+                                        <i class="fas fa-user-check fa-2x text-success mb-2"></i>
+                                        <p class="mb-0 text-muted">Status Mahasiswa</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-body text-center">
+                <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                <h4>Data Tidak Ditemukan</h4>
+                <p class="text-muted">Detail mahasiswa tidak dapat ditemukan atau tidak tersedia.</p>
+                <a href="javascript:history.back()" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

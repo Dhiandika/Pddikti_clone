@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% block title %}Pencarian Mahasiswa - PDDIKTI Clone{% endblock %}
+{% block content %}
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 d-none"
+    style="z-index: 9999;">
+    <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="text-center text-white">
+            <div class="spinner-border text-light mb-3" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <h4 class="mb-3">Memuat Data Detail Mahasiswa</h4>
+            <div class="progress mb-3" style="width: 300px;">
+                <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                    style="width: 0%"></div>
+            </div>
+            <p class="mb-0">Mohon tunggu, sedang mengambil data lengkap dari server...</p>
+            <small class="text-muted">Ini mungkin memakan waktu 10-15 detik</small>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">
+                    <i class="fas fa-user-graduate"></i> Pencarian Data Mahasiswa
+                </h3>
+            </div>
+            <div class="card-body">
+                <!-- Search Form -->
+                <form method="POST" class="mb-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-lg" name="keyword"
+                            placeholder="Masukkan nama mahasiswa..." value="{{ keyword or '' }}" required>
+                        <button class="btn btn-primary btn-lg" type="submit">
+                            <i class="fas fa-search"></i> Cari
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Results Section -->
+                {% if keyword %}
+                {% if error %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Error:</strong> {{ error }}
+                </div>
+                {% elif mahasiswa_list %}
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    Ditemukan <strong>{{ mahasiswa_list|length }}</strong> mahasiswa untuk kata kunci "<strong>{{
+                        keyword }}</strong>"
+                </div>
+
+                <div class="row">
+                    {% for mhs in mahasiswa_list %}
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="card h-100 border-primary">
+                            <div class="card-header bg-light">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-user"></i> {{ mhs.nama }}
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-2">
+                                    <strong><i class="fas fa-id-card"></i> NIM:</strong><br>
+                                    <span class="text-primary">{{ mhs.nim }}</span>
+                                </div>
+                                <div class="mb-2">
+                                    <strong><i class="fas fa-university"></i> Universitas:</strong><br>
+                                    <span class="text-secondary">{{ mhs.nama_pt }}</span>
+                                </div>
+                                {% if mhs.id %}
+                                <div class="mt-3">
+                                    <div class="btn-group w-100" role="group">
+                                        <a href="{{ url_for('main.detail_mahasiswa', mahasiswa_id=mhs.id) }}"
+                                            class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-info-circle"></i> Detail
+                                        </a>
+                                        <button onclick="loadDetailLengkap('{{ mhs.id }}')"
+                                            class="btn btn-outline-success btn-sm">
+                                            <i class="fas fa-file-alt"></i> Detail Lengkap
+                                        </button>
+                                    </div>
+                                    {% if mhs.nim and mhs.npsn and mhs.kode_prodi %}
+                                    <div class="mt-2">
+                                        <a href="{{ url_for('main.detail_mahasiswa_full_direct', nim=mhs.nim, npsn=mhs.npsn, kode_prodi=mhs.kode_prodi) }}"
+                                            class="btn btn-outline-info btn-sm w-100">
+                                            <i class="fas fa-external-link-alt"></i> Detail Lengkap (Direct)
+                                        </a>
+                                    </div>
+                                    {% endif %}
+                                    <div class="mt-2">
+                                        <a href="{{ url_for('main.debug_detail', mahasiswa_id=mhs.id) }}"
+                                            class="btn btn-outline-warning btn-sm w-100">
+                                            <i class="fas fa-bug"></i> Debug
+                                        </a>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    Tidak ada mahasiswa ditemukan untuk kata kunci "<strong>{{ keyword }}</strong>"
+                </div>
+                {% endif %}
+                {% else %}
+                <div class="text-center text-muted">
+                    <i class="fas fa-search fa-3x mb-3"></i>
+                    <h5>Masukkan nama mahasiswa untuk mencari data</h5>
+                    <p class="text-muted">Contoh: Ilham Riski Wibowo</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Back Button -->
+<div class="mt-4 text-center">
+    <a href="/" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+    </a>
+</div>
+
+<script>
+    function loadDetailLengkap(mahasiswaId) {
+        // Show loading overlay
+        const overlay = document.getElementById('loadingOverlay');
+        const progressBar = document.getElementById('progressBar');
+
+        overlay.classList.remove('d-none');
+
+        // Simulate progress animation
+        let progress = 0;
+        const progressInterval = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progress > 90) progress = 90; // Don't reach 100% until actual load
+            progressBar.style.width = progress + '%';
+        }, 200);
+
+        // Navigate to detail page
+        setTimeout(() => {
+            clearInterval(progressInterval);
+            progressBar.style.width = '100%';
+
+            // Small delay to show 100% completion
+            setTimeout(() => {
+                window.location.href = `/detail_mahasiswa_full/${mahasiswaId}`;
+            }, 500);
+        }, 1000);
+    }
+
+    // Hide loading overlay if user navigates away
+    window.addEventListener('beforeunload', function () {
+        document.getElementById('loadingOverlay').classList.add('d-none');
+    });
+</script>
+
+{% endblock %}

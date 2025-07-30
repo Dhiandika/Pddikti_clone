@@ -1,0 +1,352 @@
+{% extends "base.html" %}
+{% block title %}Detail Dosen - PDDIKTI Clone{% endblock %}
+{% block content %}
+
+{% if error %}
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>Error:</strong> {{ error }}
+        </div>
+    </div>
+</div>
+{% elif profile and profile.get('nama_dosen') %}
+<div class="row">
+    <div class="col-12">
+        <!-- Header Card -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-success text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">
+                        <i class="fas fa-chalkboard-teacher"></i> Detail Dosen
+                    </h3>
+                    <a href="javascript:history.back()" class="btn btn-light btn-sm">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4 class="text-success mb-3">{{ profile.nama_dosen or 'Nama tidak tersedia' }}</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong><i class="fas fa-id-card"></i> NIDN:</strong><br>
+                                    <span class="text-success">{{ profile.nidn or 'Tidak tersedia' }}</span>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong><i class="fas fa-user-tie"></i> Jabatan Akademik:</strong><br>
+                                    <span class="text-secondary">{{ profile.jabatan_akademik or 'Tidak tersedia'
+                                        }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="bg-light rounded p-3">
+                            <i class="fas fa-chalkboard-teacher fa-3x text-success mb-2"></i>
+                            <p class="mb-0 text-muted">Dosen</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Information -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card shadow h-100">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="fas fa-user"></i> Informasi Profil
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <strong><i class="fas fa-graduation-cap"></i> Pendidikan Tertinggi:</strong><br>
+                            <span class="text-info">{{ profile.pendidikan_tertinggi or 'Tidak tersedia' }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <strong><i class="fas fa-briefcase"></i> Status Ikatan Kerja:</strong><br>
+                            <span class="text-secondary">{{ profile.status_ikatan_kerja or 'Tidak tersedia' }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <strong><i class="fas fa-chart-line"></i> Status Aktivitas:</strong><br>
+                            <span class="badge bg-success">{{ profile.status_aktivitas or 'Tidak tersedia' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow h-100">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="fas fa-university"></i> Informasi Institusi
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <strong><i class="fas fa-university"></i> Perguruan Tinggi:</strong><br>
+                            <span class="text-primary">{{ profile.nama_pt or 'Tidak tersedia' }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <strong><i class="fas fa-graduation-cap"></i> Program Studi:</strong><br>
+                            <span class="text-info">{{ profile.nama_prodi or 'Tidak tersedia' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Research Section -->
+        {% if penelitian and penelitian is mapping and penelitian.get('data') %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-microscope"></i> Penelitian
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% for research in penelitian.data %}
+                            <div class="col-md-6 mb-3">
+                                <div class="card border-info">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-info">{{ research.judul_kegiatan or 'Judul tidak
+                                            tersedia' }}</h6>
+                                        <p class="card-text">
+                                            <strong>Tahun:</strong> {{ research.tahun_kegiatan or 'Tidak tersedia'
+                                            }}<br>
+                                            <strong>Jenis:</strong> {{ research.jenis_kegiatan or 'Tidak tersedia'
+                                            }}<br>
+                                            <strong>Sumber Dana:</strong> {{ research.sumber_dana or 'Tidak tersedia' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Community Service Section -->
+        {% if pengabdian and pengabdian is mapping and pengabdian.get('data') %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">
+                            <i class="fas fa-hands-helping"></i> Pengabdian Masyarakat
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% for service in pengabdian.data %}
+                            <div class="col-md-6 mb-3">
+                                <div class="card border-warning">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-warning">{{ service.judul_kegiatan or 'Judul tidak
+                                            tersedia' }}</h6>
+                                        <p class="card-text">
+                                            <strong>Tahun:</strong> {{ service.tahun_kegiatan or 'Tidak tersedia' }}<br>
+                                            <strong>Jenis:</strong> {{ service.jenis_kegiatan or 'Tidak tersedia' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Publications Section -->
+        {% if karya and karya is mapping and karya.get('data') %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-book"></i> Karya Ilmiah
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% for publication in karya.data %}
+                            <div class="col-md-6 mb-3">
+                                <div class="card border-primary">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-primary">{{ publication.judul or 'Judul tidak
+                                            tersedia' }}</h6>
+                                        <p class="card-text">
+                                            <strong>Jenis:</strong> {{ publication.jenis or 'Tidak tersedia' }}<br>
+                                            <strong>Tahun:</strong> {{ publication.tahun or 'Tidak tersedia' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Patents Section -->
+        {% if paten and paten is mapping and paten.get('data') %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-certificate"></i> Paten
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% for patent in paten.data %}
+                            <div class="col-md-6 mb-3">
+                                <div class="card border-secondary">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-secondary">{{ patent.judul or 'Judul tidak tersedia'
+                                            }}</h6>
+                                        <p class="card-text">
+                                            <strong>Nomor:</strong> {{ patent.nomor or 'Tidak tersedia' }}<br>
+                                            <strong>Tahun:</strong> {{ patent.tahun or 'Tidak tersedia' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Education History Section -->
+        {% if study_history and study_history is mapping and study_history.get('data') %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-graduation-cap"></i> Riwayat Pendidikan
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Jenjang</th>
+                                        <th>Institusi</th>
+                                        <th>Program Studi</th>
+                                        <th>Tahun</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for education in study_history.data %}
+                                    <tr>
+                                        <td>{{ education.jenjang or 'Tidak tersedia' }}</td>
+                                        <td>{{ education.institusi or 'Tidak tersedia' }}</td>
+                                        <td>{{ education.program_studi or 'Tidak tersedia' }}</td>
+                                        <td>{{ education.tahun or 'Tidak tersedia' }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Teaching History Section -->
+        {% if teaching_history and teaching_history is mapping and teaching_history.get('data') %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-chalkboard"></i> Riwayat Mengajar
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Mata Kuliah</th>
+                                        <th>Program Studi</th>
+                                        <th>Semester</th>
+                                        <th>Tahun</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for teaching in teaching_history.data %}
+                                    <tr>
+                                        <td>{{ teaching.mata_kuliah or 'Tidak tersedia' }}</td>
+                                        <td>{{ teaching.program_studi or 'Tidak tersedia' }}</td>
+                                        <td>{{ teaching.semester or 'Tidak tersedia' }}</td>
+                                        <td>{{ teaching.tahun or 'Tidak tersedia' }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- No Data Message -->
+        {% if not penelitian and not pengabdian and not karya and not paten and not study_history and not
+        teaching_history %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-body text-center">
+                        <i class="fas fa-info-circle fa-3x text-info mb-3"></i>
+                        <h5>Data Tambahan Tidak Tersedia</h5>
+                        <p class="text-muted">Data penelitian, pengabdian, karya ilmiah, dan riwayat tidak tersedia
+                            untuk dosen ini.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-body text-center">
+                <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                <h4>Data Tidak Ditemukan</h4>
+                <p class="text-muted">Detail dosen tidak dapat ditemukan atau tidak tersedia.</p>
+                <a href="javascript:history.back()" class="btn btn-success">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
