@@ -188,16 +188,31 @@ pddikti-clone/
 ## 📸 Screenshots
 
 ### Halaman Beranda
-[Screenshot beranda akan ditambahkan di sini]
+![Alt text](/image/image_%20(1).png "Halaman Beranda")
 
 ### Halaman Pencarian Mahasiswa
-[Screenshot pencarian mahasiswa akan ditambahkan di sini]
+![Alt text](/image/image_%20(8).png "Halaman Mahasiswa")
+
 
 ### Halaman Detail Mahasiswa
-[Screenshot detail mahasiswa akan ditambahkan di sini]
+![Alt text](/image/image_%20(6).png "Halaman Mahasiswa")
+
+### Halaman Pencarian Dosen
+![Alt text](/image/image_%20(7).png "Halaman Mahasiswa")
 
 ### Halaman Detail Dosen
-[Screenshot detail dosen akan ditambahkan di sini]
+![Alt text](/image/image_%20(5).png "Halaman Mahasiswa")
+
+### Halaman Pencarian Umum
+![Alt text](/image/image_%20(2).png "Halaman Mahasiswa")
+
+### Halaman Pencarian Program Studi
+![Alt text](/image/image_%20(3).png "Halaman Mahasiswa")
+
+### Halaman Pencarian Program Studi
+![Alt text](/image/image_%20(4).png "Halaman Mahasiswa")
+
+
 
 ## 🔄 Update dan Maintenance
 
